@@ -10,23 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_13_211331) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_14_210327) do
   create_table "projects", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "description"
-    t.string "title"
+    t.integer "creator_id", null: false
+    t.text "description"
+    t.string "title", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_projects_on_user_id"
+    t.index ["creator_id"], name: "index_projects_on_creator_id"
+    t.index ["title"], name: "index_projects_on_title"
   end
 
   create_table "tasks", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.date "deadline"
-    t.string "description"
     t.integer "project_id", null: false
-    t.string "status"
-    t.string "title"
+    t.string "status", default: "todo", null: false
+    t.string "title", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"
@@ -35,12 +35,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_13_211331) do
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.string "email"
-    t.string "name"
+    t.string "email", null: false
+    t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "projects", "users"
+  add_foreign_key "projects", "users", column: "creator_id"
   add_foreign_key "tasks", "projects"
   add_foreign_key "tasks", "users"
 end
