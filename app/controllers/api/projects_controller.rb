@@ -18,7 +18,7 @@ class Api::ProjectsController < Api::BaseController
     @project = Project.new(project_params)
 
     if @project.save
-      render json: @project, status: :created, location: @project
+      render json: @project, status: :created, location: api_project_url(@project)
     else
       render json: @project.errors, status: :unprocessable_content
     end
