@@ -1,0 +1,5 @@
+class AddUniqueIndexToTasks < ActiveRecord::Migration[8.1]
+  def change
+    add_index :tasks, [ :project_id, :user_id, :title ], unique: true
+  end
+end
